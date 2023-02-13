@@ -1,0 +1,13 @@
+<h2>{{artist.name}} Albums</h2>
+
+<div class="search-results">
+{{#each albums}}
+    <div class="album">
+        {{#with image}}
+        <img src="{{url}}" alt="" style="width:{{width}}; height:{{height}};">
+        {{/with}}
+        <h3 class="title">{{name}}</h3>
+        <a href="{{link_url}}">View Tracks</a>
+    </div>
+{{/each}}
+</div>
