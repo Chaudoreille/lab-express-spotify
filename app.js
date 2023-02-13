@@ -27,6 +27,7 @@ app.use(express.static(__dirname + '/public'));
 // Our routes go here:
 app.get("/", (req, res, next) => {
     try {
+        res.locals.cssFiles = ["home"]
         res.render("home");
     } catch(error) {
         next(error);
@@ -37,6 +38,7 @@ app.get("/artist-search", (req, res, next) => {
     spotifyApi
     .searchArtists(req.query.name)
     .then(data => {
+        res.locals.cssFiles = ["search-results"]
         res.locals.artists = [];
         for (artist of data.body.artists.items) {
             res.locals.artists.push({

@@ -1,14 +1,17 @@
 <h2>Search Results</h2>
 
+<div class="search-results">
 {{#each artists}}
-{{log name}}
-{{log link}}
-{{log image.url}}
-    <div>
+    <div class="search-item">
+        <div class="image-container">
         {{#with image}}
-        <img src="{{url}}" style="width:{{width}};heigh:{{height}};"></img>
+            <img src="{{url}}"></img>
         {{/with}}
-        <p>{{name}}</p>
-        <a href="{{linkUrl}}">View albums</a>
+        </div>
+        <div class="text-container">
+            <p>{{name}}</p>
+            <a href="{{linkUrl}}">View albums</a>
+        </div>
     </div>
 {{/each}}
+</div>
