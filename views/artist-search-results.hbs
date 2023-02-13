@@ -1,0 +1,14 @@
+<h2>Search Results</h2>
+
+{{#each artists}}
+{{log name}}
+{{log link}}
+{{log image.url}}
+    <div>
+        {{#with image}}
+        <img src="{{url}}" style="width:{{width}};heigh:{{height}};"></img>
+        {{/with}}
+        <p>{{name}}</p>
+        <a href="{{link}}">View albums</a>
+    </div>
+{{/each}}

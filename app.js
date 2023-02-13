@@ -33,4 +33,31 @@ app.get("/", (req, res, next) => {
     }
 });
 
+app.get("/artist-search", (req, res, next) => {
+    try {
+        spotifyApi
+        .searchArtists(req.query.name)
+        .then(data => {
+            res.locals.artists = [];
+            // console.log('The received data from the API: ', data.body);
+            for (artist of data.body.artists.items) {
+                // for (key in artist) {
+                //     console.log(key, artist[key])
+                // }
+                res.locals.artists.push({
+                    name: artist.name,
+                    image: artist.images[0],
+                    link: `/albums/${artist.id}`
+                });
+            }
+            res.render("artist-search-results")
+        })
+        .catch(err => console.log(err));
+    } catch(error) {
+        console.log("ERROAR", err)
+        next(error);
+    }
+})
+
+
 app.listen(3000, () => console.log('My Spotify project running on port 3000 🎧 🥁 🎸 🔊'));
