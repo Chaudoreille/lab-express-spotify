@@ -1,0 +1,24 @@
+<h2>{{title}}</h2>
+
+<div class="track-list">
+    <div class="track-list-header">
+        <p>Title</p>
+        <p>Listen</p>
+    </div>
+    <ul>
+    {{#each tracks}}
+        <li class="track">
+            <p class="track-number">{{number}}</p>
+            <p class="track-title">{{title}}</p>
+            {{#if audioSrc}}
+                <audio
+                    controls
+                    src="{{audioSrc}}"
+                >
+                    <a href="{{downloadLink}}" class="download-track"></a>
+                </audio>
+            {{/if}}
+        </li>
+    {{/each}}
+    </ul>
+</div>

@@ -34,48 +34,55 @@ app.get("/", (req, res, next) => {
 });
 
 app.get("/artist-search", (req, res, next) => {
-    try {
-        spotifyApi
-        .searchArtists(req.query.name)
-        .then(data => {
-            res.locals.artists = [];
-            for (artist of data.body.artists.items) {
-                res.locals.artists.push({
-                    name: artist.name,
-                    image: artist.images[0],
-                    link_url: `/albums/${artist.id}`
-                });
-            }
-            res.render("artist-search-results")
-        })
-        .catch(err => console.log(err));
-    } catch(error) {
-        console.log("ERROAR", err)
-        next(error);
-    }
+    spotifyApi
+    .searchArtists(req.query.name)
+    .then(data => {
+        res.locals.artists = [];
+        for (artist of data.body.artists.items) {
+            res.locals.artists.push({
+                name: artist.name,
+                image: artist.images[0],
+                linkUrl: `/albums/${artist.id}`
+            });
+        }
+        res.render("artist-search-results")
+    })
+    .catch(err => console.log(err));
 })
 
 app.get("/albums/:id", (req, res, next) => {
-    try {
-        spotifyApi
-        .getArtistAlbums(req.params.id)
-        .then(data => {
-            res.locals.albums = [];
-            // res.send(data.body)
-            for (album of data.body.items) {
-                res.locals.albums.push({
-                    name: album.name,
-                    image: album.images[0],
-                    link_url: `/album/${album.id}`
-                });
-            }
-            res.render("albums")
-        })
-        .catch(err => console.log(err));
-    } catch(error) {
-        console.log("ERROAR", err)
-        next(error);
-    }
+    spotifyApi
+    .getArtistAlbums(req.params.id)
+    .then(data => {
+        res.locals.albums = [];
+        for (album of data.body.items) {
+            res.locals.albums.push({
+                name: album.name,
+                image: album.images[0],
+                linkUrl: `/album/${album.id}`
+            });
+        }
+        res.render("albums")
+    })
+    .catch(err => next(err));
+})
+
+app.get("/album/:id", (req, res, next) => {
+    spotifyApi
+    .getAlbumTracks(req.params.id)
+    .then(data => {
+        res.locals.tracks = [];
+        for (track of data.body.items) {
+            res.locals.tracks.push({
+                number: track.track_number,
+                title: track.name,
+                audioSrc: track.preview_url,
+                downloadLink: track.external_urls.spotify
+            });
+        }
+        res.render("album")
+    })
+    .catch(err => next(err));
 })
 
 app.listen(3000, () => console.log('My Spotify project running on port 3000 🎧 🥁 🎸 🔊'));
